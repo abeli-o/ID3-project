@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Health Diagnosis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --border: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-size: 1.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-links a {
+            color: var(--primary);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+        }
+        
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .flash-messages {
+            margin-bottom: 1.5rem;
+        }
+        
+        .flash-message {
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .flash-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .card-desc {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-heartbeat"></i> Health Diagnosis</h1>
+            <div class="nav-links">
+                <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </header>
+        
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        
+        <div class="card-container">
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-stethoscope"></i>
+                </div>
+                <h2 class="card-title">Start Diagnosis</h2>
+                <p class="card-desc">Get instant preliminary assessment based on your symptoms and medical history.</p>
+                <a href="{{ url_for('predict') }}" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i> Begin Diagnosis
+                </a>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <h2 class="card-title">Diagnosis History</h2>
+                <p class="card-desc">View your previous diagnosis reports and track your health over time.</p>
+                <a href="{{ url_for('history') }}" class="btn btn-primary">
+                    <i class="fas fa-book-open"></i> View History
+                </a>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <h2 class="card-title">Find Doctors</h2>
+                <p class="card-desc">Connect with healthcare professionals in your area for further consultation.</p>
+                <a href="{{ url_for('search_doctors') }}" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Search Doctors
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

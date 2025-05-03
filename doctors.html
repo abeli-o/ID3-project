@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Doctors | Health Diagnosis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --border: #e2e8f0;
+            --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            color: var(--dark);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-light);
+        }
+        
+        .search-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            align-items: end;
+        }
+        
+        .form-group {
+            margin-bottom: 0;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .results-container {
+            margin-top: 1rem;
+        }
+        
+        .results-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .results-header h2 {
+            color: var(--dark);
+            font-size: 1.5rem;
+        }
+        
+        .doctors-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .doctor-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        
+        .doctor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .doctor-header h3 {
+            color: var(--primary);
+            margin: 0;
+            font-size: 1.25rem;
+        }
+        
+        .doctor-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .doctor-rating .fa-star {
+            color: #e2e8f0;
+        }
+        
+        .doctor-rating .fa-star.filled {
+            color: #fbbf24;
+        }
+        
+        .doctor-details {
+            margin-bottom: 1.5rem;
+        }
+        
+        .doctor-details p {
+            margin: 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .doctor-contact {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed var(--border);
+        }
+        
+        .availability {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .availability.available {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+        }
+        
+        .availability.unavailable {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--gray);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--primary-light);
+            margin-bottom: 1.5rem;
+        }
+        
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .empty-state p {
+            margin-bottom: 2rem;
+            color: var(--gray);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .search-container {
+                padding: 1.5rem;
+            }
+            
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .doctor-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .availability {
+                position: static;
+                margin-top: 1rem;
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-user-md"></i> Find Doctors</h1>
+            <div class="nav-links">
+                <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a>
+                <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </header>
+
+        <div class="search-container">
+            <form method="post" class="search-form">
+                <div class="form-group">
+                    <label for="specialty"><i class="fas fa-stethoscope"></i> Specialty</label>
+                    <select id="specialty" name="specialty">
+                        <option value="All">All Specialties</option>
+                        {% for specialty in specialties %}
+                        <option value="{{ specialty }}" {% if selected_specialty == specialty %}selected{% endif %}>{{ specialty }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location"><i class="fas fa-map-marker-alt"></i> Location</label>
+                    <input type="text" id="location" name="location" placeholder="City or State" 
+                           value="{{ selected_location }}">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Search Doctors
+                </button>
+            </form>
+        </div>
+
+        {% if doctors %}
+        <div class="results-container">
+            <div class="results-header">
+                <h2>{{ doctors|length }} Doctor{% if doctors|length != 1 %}s{% endif %} Found</h2>
+            </div>
+            
+            <div class="doctors-list">
+                {% for doctor in doctors %}
+                <div class="doctor-card">
+                    <div class="doctor-header">
+                        <h3>{{ doctor.name }}</h3>
+                        <div class="doctor-rating">
+                            {% for i in range(5) %}
+                            <i class="fas fa-star {% if i < doctor.rating|int %}filled{% endif %}"></i>
+                            {% endfor %}
+                            <span>({{ "%.1f"|format(doctor.rating) }})</span>
+                        </div>
+                    </div>
+                    
+                    <div class="doctor-details">
+                        <p><i class="fas fa-stethoscope"></i> <strong>{{ doctor.specialty }}</strong></p>
+                        <p><i class="fas fa-hospital"></i> {{ doctor.hospital }}</p>
+                        <p><i class="fas fa-map-marker-alt"></i> {{ doctor.address }}, {{ doctor.city }}, {{ doctor.state }}</p>
+                    </div>
+                    
+                    <div class="doctor-contact">
+                        {% if doctor.phone %}
+                        <p><i class="fas fa-phone"></i> {{ doctor.phone }}</p>
+                        {% endif %}
+                        {% if doctor.email %}
+                        <p><i class="fas fa-envelope"></i> {{ doctor.email }}</p>
+                        {% endif %}
+                        {% if doctor.website %}
+                        <p><i class="fas fa-globe"></i> <a href="{{ doctor.website }}" target="_blank">Visit Website</a></p>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="availability {% if doctor.accepts_new_patients %}available{% else %}unavailable{% endif %}">
+                        <i class="fas fa-{% if doctor.accepts_new_patients %}check{% else %}times{% endif %}-circle"></i>
+                        {% if doctor.accepts_new_patients %}Accepting{% else %}Not Accepting{% endif %} New Patients
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% elif request.method == 'POST' %}
+        <div class="empty-state">
+            <i class="fas fa-user-md"></i>
+            <h3>No doctors found matching your criteria</h3>
+            <p>Try broadening your search or check back later.</p>
+            <a href="{{ url_for('search_doctors') }}" class="btn btn-primary">
+                <i class="fas fa-redo"></i> Try Again
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    
+</body>
+</html>
